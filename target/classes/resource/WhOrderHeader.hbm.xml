@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-16 23:41:32 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="CigouDAO.cigoudb.WhOrderHeader" table="wh_order_header" catalog="cigou" optimistic-lock="version">
+        <id name="orderId" type="string">
+            <column name="order_id" length="50" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="whRefTpl" class="CigouDAO.cigoudb.WhRefTpl" fetch="select">
+            <column name="tpl" length="50" not-null="true" />
+        </many-to-one>
+        <property name="orderDate" type="string">
+            <column name="orderDate" length="19" not-null="true" />
+        </property>
+        <property name="customerId" type="string">
+            <column name="customerId" length="20" not-null="true" />
+        </property>
+        <property name="packingMaterial" type="string">
+            <column name="packingMaterial" length="50" not-null="true" />
+        </property>
+        <property name="warehouseId" type="string">
+            <column name="warehouseId" length="50" not-null="true" />
+        </property>
+        <property name="orderType" type="int">
+            <column name="orderType" not-null="true" />
+        </property>
+        <property name="electriccode" type="string">
+            <column name="electriccode" length="64" not-null="true" />
+        </property>
+        <property name="deliveryCode" type="string">
+            <column name="deliveryCode" length="64" not-null="true" />
+        </property>
+        <property name="notes" type="string">
+            <column name="notes" length="2000" not-null="true" />
+        </property>
+        <property name="cbepcomcode" type="string">
+            <column name="cbepcomcode" length="64" not-null="true" />
+        </property>
+        <set name="whOrderItemses" table="wh_order_items" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="order_id" length="50" not-null="true" />
+            </key>
+            <one-to-many class="CigouDAO.cigoudb.WhOrderItems" />
+        </set>
+        <one-to-one name="whOrderRecipient" class="CigouDAO.cigoudb.WhOrderRecipient"></one-to-one>
+        <one-to-one name="whOrderConfirm" class="CigouDAO.cigoudb.WhOrderConfirm"></one-to-one>
+    </class>
+</hibernate-mapping>

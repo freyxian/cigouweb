@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-16 23:41:32 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="CigouDAO.cigoudb.WhOrderItems" table="wh_order_items" catalog="cigou" optimistic-lock="version">
+        <composite-id name="id" class="CigouDAO.cigoudb.WhOrderItemsId">
+            <key-property name="orderId" type="string">
+                <column name="order_id" length="50" />
+            </key-property>
+            <key-property name="goodId" type="string">
+                <column name="good_id" length="20" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="whOrderHeader" class="CigouDAO.cigoudb.WhOrderHeader" update="false" insert="false" fetch="select">
+            <column name="order_id" length="50" not-null="true" />
+        </many-to-one>
+        <property name="amount" type="int">
+            <column name="amount" not-null="true" />
+        </property>
+        <property name="price" type="float">
+            <column name="price" precision="12" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

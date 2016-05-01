@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-16 23:41:32 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="CigouDAO.cigoudb.WhOrderLogisticsFlow" table="wh_order_logistics_flow" catalog="cigou" optimistic-lock="version">
+        <composite-id name="id" class="CigouDAO.cigoudb.WhOrderLogisticsFlowId">
+            <key-property name="orderId" type="string">
+                <column name="order_id" length="50" />
+            </key-property>
+            <key-property name="acceptTime" type="timestamp">
+                <column name="accept_time" length="19" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="whOrderLogistics" class="CigouDAO.cigoudb.WhOrderLogistics" update="false" insert="false" fetch="select">
+            <column name="order_id" length="50" not-null="true" />
+        </many-to-one>
+        <property name="acceptAddress" type="string">
+            <column name="accept_address" length="20" not-null="true" />
+        </property>
+        <property name="acceptStatus" type="string">
+            <column name="accept_status" length="10" />
+        </property>
+        <property name="acceptNotes" type="string">
+            <column name="accept_notes" length="5000" />
+        </property>
+    </class>
+</hibernate-mapping>

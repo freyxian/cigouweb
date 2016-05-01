@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-16 23:41:32 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="CigouDAO.cigoudb.WhOrderDelivery" table="wh_order_delivery" catalog="cigou" optimistic-lock="version">
+        <id name="enOrderCode" type="string">
+            <column name="enOrderCode" length="50" />
+            <generator class="assigned" />
+        </id>
+        <property name="wayBillNo" type="string">
+            <column name="wayBillNo" length="45" not-null="true" />
+        </property>
+        <property name="logisticsName" type="string">
+            <column name="logistics_name" length="50" not-null="true" />
+        </property>
+        <property name="notes" type="string">
+            <column name="notes" length="1000" />
+        </property>
+        <property name="logisticsId" type="string">
+            <column name="logistics_id" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

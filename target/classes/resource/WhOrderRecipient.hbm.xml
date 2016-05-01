@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-16 23:41:32 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="CigouDAO.cigoudb.WhOrderRecipient" table="wh_order_recipient" catalog="cigou" optimistic-lock="version">
+        <id name="orderId" type="string">
+            <column name="order_id" length="50" />
+            <generator class="foreign">
+                <param name="property">whOrderHeader</param>
+            </generator>
+        </id>
+        <one-to-one name="whOrderHeader" class="CigouDAO.cigoudb.WhOrderHeader" constrained="true"></one-to-one>
+        <property name="name" type="string">
+            <column name="name" length="20" not-null="true" />
+        </property>
+        <property name="receiveType" type="java.lang.Integer">
+            <column name="receive_type" />
+        </property>
+        <property name="receiveNo" type="string">
+            <column name="receive_no" length="30" not-null="true" />
+        </property>
+        <property name="mobilePhone" type="string">
+            <column name="mobile_phone" length="20" not-null="true" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" length="10" not-null="true" />
+        </property>
+        <property name="country" type="string">
+            <column name="country" length="10" not-null="true" />
+        </property>
+        <property name="province" type="string">
+            <column name="province" length="10" not-null="true" />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="10" not-null="true" />
+        </property>
+        <property name="district" type="string">
+            <column name="district" length="10" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="250" not-null="true" />
+        </property>
+        <property name="postcode" type="string">
+            <column name="postcode" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

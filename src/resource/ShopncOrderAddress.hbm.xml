@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-16 23:41:32 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="CigouDAO.cigoudb.ShopncOrderAddress" table="shopnc_order_address" catalog="cigou" optimistic-lock="version">
+        <id name="orderId" type="int">
+            <column name="order_id" />
+            <generator class="foreign">
+                <param name="property">shopncOrder</param>
+            </generator>
+        </id>
+        <one-to-one name="shopncOrder" class="CigouDAO.cigoudb.ShopncOrder" constrained="true"></one-to-one>
+        <property name="trueName" type="string">
+            <column name="true_name" length="50" not-null="true">
+                <comment>&#202;&#213;&#187;&#245;&#200;&#203;&#208;&#213;&#195;&#251;</comment>
+            </column>
+        </property>
+        <property name="areaId" type="int">
+            <column name="area_id" not-null="true">
+                <comment>&#181;&#216;&#199;&#248;id</comment>
+            </column>
+        </property>
+        <property name="areaInfo" type="string">
+            <column name="area_info" length="100" not-null="true">
+                <comment>&#181;&#216;&#199;&#248;&#196;&#218;&#200;&#221;</comment>
+            </column>
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="200" not-null="true">
+                <comment>&#207;&#234;&#207;&#184;&#181;&#216;&#214;&#183;</comment>
+            </column>
+        </property>
+        <property name="zipCode" type="string">
+            <column name="zip_code" length="20" not-null="true">
+                <comment>&#211;&#202;&#213;&#254;&#177;&#224;&#194;&#235;</comment>
+            </column>
+        </property>
+        <property name="telPhone" type="string">
+            <column name="tel_phone" length="20" not-null="true">
+                <comment>&#181;&#231;&#187;&#176;&#186;&#197;&#194;&#235;</comment>
+            </column>
+        </property>
+        <property name="mobPhone" type="string">
+            <column name="mob_phone" length="20" not-null="true">
+                <comment>&#202;&#214;&#187;&#250;&#186;&#197;&#194;&#235;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

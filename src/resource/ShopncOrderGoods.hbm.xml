@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-16 23:41:32 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="CigouDAO.cigoudb.ShopncOrderGoods" table="shopnc_order_goods" catalog="cigou" optimistic-lock="version">
+        <composite-id name="id" class="CigouDAO.cigoudb.ShopncOrderGoodsId">
+            <key-property name="orderId" type="int">
+                <column name="order_id" />
+            </key-property>
+            <key-property name="goodsId" type="int">
+                <column name="goods_id" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="shopncOrder" class="CigouDAO.cigoudb.ShopncOrder" update="false" insert="false" fetch="select">
+            <column name="order_id" not-null="true">
+                <comment>&#182;&#169;&#181;&#165;id</comment>
+            </column>
+        </many-to-one>
+        <property name="recId" type="int">
+            <column name="rec_id" not-null="true">
+                <comment>&#182;&#169;&#181;&#165;&#201;&#204;&#198;&#183;&#177;&#237;&#203;&#247;&#210;&#253;id</comment>
+            </column>
+        </property>
+        <property name="goodsName" type="string">
+            <column name="goods_name" length="100" not-null="true">
+                <comment>&#201;&#204;&#198;&#183;&#195;&#251;&#179;&#198;</comment>
+            </column>
+        </property>
+        <property name="specId" type="int">
+            <column name="spec_id" not-null="true">
+                <comment>&#185;&#230;&#184;&#241;id</comment>
+            </column>
+        </property>
+        <property name="specInfo" type="string">
+            <column name="spec_info" length="50">
+                <comment>&#185;&#230;&#184;&#241;&#195;&#232;&#202;&#246;</comment>
+            </column>
+        </property>
+        <property name="goodsPrice" type="big_decimal">
+            <column name="goods_price" precision="10" not-null="true">
+                <comment>&#201;&#204;&#198;&#183;&#188;&#219;&#184;&#241;</comment>
+            </column>
+        </property>
+        <property name="goodsNum" type="int">
+            <column name="goods_num" not-null="true">
+                <comment>&#201;&#204;&#198;&#183;&#202;&#253;&#193;&#191;</comment>
+            </column>
+        </property>
+        <property name="goodsImage" type="string">
+            <column name="goods_image" length="100">
+                <comment>&#201;&#204;&#198;&#183;&#205;&#188;&#198;&#172;</comment>
+            </column>
+        </property>
+        <property name="goodsReturnnum" type="java.lang.Integer">
+            <column name="goods_returnnum">
+                <comment>&#205;&#203;&#187;&#245;&#202;&#253;&#193;&#191;</comment>
+            </column>
+        </property>
+        <property name="shippingFee" type="big_decimal">
+            <column name="shipping_fee" precision="10">
+                <comment>&#197;&#228;&#203;&#205;&#183;&#209;&#211;&#195;</comment>
+            </column>
+        </property>
+        <property name="shippingName" type="string">
+            <column name="shipping_name" length="3">
+                <comment>&#197;&#228;&#203;&#205;&#183;&#189;&#202;&#189;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

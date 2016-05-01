@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-4-16 23:41:32 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="CigouDAO.cigoudb.WhOrderConfirm" table="wh_order_confirm" catalog="cigou" optimistic-lock="version">
+        <id name="orderId" type="string">
+            <column name="order_id" length="50" />
+            <generator class="foreign">
+                <param name="property">whOrderHeader</param>
+            </generator>
+        </id>
+        <one-to-one name="whOrderHeader" class="CigouDAO.cigoudb.WhOrderHeader" constrained="true"></one-to-one>
+        <property name="status" type="int">
+            <column name="status" not-null="true" />
+        </property>
+        <property name="notes" type="string">
+            <column name="notes" length="1000" />
+        </property>
+    </class>
+</hibernate-mapping>
