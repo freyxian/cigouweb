@@ -7,6 +7,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,14 +28,14 @@ import CigouDAO.cigoudb.WhRefTplHome;
 public class order_input {
 
 	@RequestMapping(method=GET)
-	public String HomeController(Map<String, Object> model){
+	public String HomeController(Map<String, Object> model,HttpServletRequest request){
 		//initial empty form
 		OrderInputForm myform=new OrderInputForm();
 		model.put("oiform", myform);
 		OrderFetch of=new OrderFetch();
 		HashMap tplList=new HashMap();
 		tplList = (HashMap) of.getTPLmap();
-		model.put("tplList",tplList);
+		request.getSession().setAttribute("tplList",tplList);
 		return "order_input";
 	}
 	
@@ -43,26 +45,25 @@ public class order_input {
 	public ModelAndView processOrderSearch(@ModelAttribute("oiform") OrderInputForm myform) {
 		String orderId=myform.getOrderId();
 		String message=null;
-		HashMap tplList=null;
+
 		if(orderId==null||orderId.isEmpty()){
 			message="请输入订单编号!";
 		}else {
 		OrderFetch ordf=new OrderFetch();
 		WholeOrder wo =ordf.fetchWholeOrder(myform.getOrderId());
 		
-		if (wo==null)
-			message="没有找到订单"+orderId+"!";
-		
+		if (wo==null){
+			message="没有找到订单"+orderId+"!";	
+			myform=new OrderInputForm();
+		}
 		//after search, flash web page
 		else myform.BindOrder(wo);
-		
-		tplList=(HashMap) ordf.getTPLmap();
 		}
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("order_input");
 		mv.addObject("oiform", myform);
-		mv.addObject("tplList",tplList);
+
 		mv.addObject("message",message);
 		//return "order_input";
 		return mv;
