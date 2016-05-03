@@ -18,15 +18,11 @@ public class WhOrderConfirmHome {
 
 	private static final Log log = LogFactory.getLog(WhOrderConfirmHome.class);
 
-	private final SessionFactory sessionFactory = getSessionFactory();
+	private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
 	protected SessionFactory getSessionFactory() {
-		try {
-			return (SessionFactory) new InitialContext().lookup("SessionFactory");
-		} catch (Exception e) {
-			log.error("Could not locate SessionFactory in JNDI", e);
-			throw new IllegalStateException("Could not locate SessionFactory in JNDI");
-		}
+		
+		return sessionFactory;
 	}
 
 	public void persist(WhOrderConfirm transientInstance) {
