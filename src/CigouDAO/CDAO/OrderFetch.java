@@ -11,6 +11,8 @@ import org.hibernate.Session;
 import com.cigouweb.controller.itemForm;
 
 import CigouDAO.cigoudb.HibernateUtil;
+import CigouDAO.cigoudb.WhOrderConfirm;
+import CigouDAO.cigoudb.WhOrderConfirmHome;
 import CigouDAO.cigoudb.WhOrderHeader;
 import CigouDAO.cigoudb.WhOrderHeaderHome;
 import CigouDAO.cigoudb.WhOrderItems;
@@ -154,6 +156,32 @@ public void replaceOrder(WholeOrder wo){
 	
 	session.getTransaction().commit();
 }
+public	WhOrderHeader findOrder(String orderid){
+	WhOrderHeader wo=new WhOrderHeader();
+	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	session.beginTransaction();
+	WhOrderHeaderHome whh = new WhOrderHeaderHome(); 
+	
+	wo = whh.findById(orderid);
+	session.getTransaction().commit();
+	
+	return wo;
+}
 
+public	boolean confirmedOrder(String orderid){
+	WhOrderConfirm wo=new WhOrderConfirm();
+	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	session.beginTransaction();
+	WhOrderConfirmHome whh = new WhOrderConfirmHome(); 
+	
+	
+	wo = whh.findById(orderid);
+	session.getTransaction().commit();
+	if (wo==null) {		
+		return false;
+	}
+	
+	return true;
+}
 }
 

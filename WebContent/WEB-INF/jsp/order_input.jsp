@@ -60,7 +60,12 @@ $(document).ready(function(){
  </script>
 </head>
 <body>
-<h2>报关订单查询修改</h2><c:out value="${message}"/>
+<h2>报关订单查询修改</h2><br>
+
+<div class="message" style="color:#ff4500">
+<c:out value="${message}"/>
+</div>
+
 <form:form action="order_input" method="post" modelAttribute="oiform">
 <input type="hidden" value="" id="deleteItemIndex" name="deleteItemIndex"/>
   定单号:<form:input  path="orderId" /> 

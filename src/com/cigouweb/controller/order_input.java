@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import CigouDAO.CDAO.OrderFetch;
 import CigouDAO.CDAO.WholeOrder;
 import CigouDAO.cigoudb.HibernateUtil;
+import CigouDAO.cigoudb.WhOrderHeader;
 import CigouDAO.cigoudb.WhOrderItems;
 import CigouDAO.cigoudb.WhOrderItemsHome;
 import CigouDAO.cigoudb.WhOrderItemsId;
@@ -49,11 +50,12 @@ public class order_input {
 		OrderFetch ordf=new OrderFetch();
 		WholeOrder wo =ordf.fetchWholeOrder(myform.getOrderId());
 		
-		if (wo==null){
+		if (wo==null)
 			message="没有找到订单"+orderId+"!";
-		}
+		
 		//after search, flash web page
-		myform.BindOrder(wo);
+		else myform.BindOrder(wo);
+		
 		tplList=(HashMap) ordf.getTPLmap();
 		}
 
@@ -85,19 +87,29 @@ public class order_input {
 	@RequestMapping(method=POST, params = { "ModifyOrder" })
 	public ModelAndView processModifyOrder(@ModelAttribute("oiform") OrderInputForm myform) {
 		HashMap tplList=null;
-		WholeOrder wo=myform.Form2Order();
+		String message = "订单更改成功！";
+
 		
 		//first check if order exist
 		//second check, if order confirmed
 		
 		OrderFetch of=new OrderFetch();
-		of.replaceOrder(wo);
+		WhOrderHeader woh=of.findOrder(myform.getOrderId());
+		if(woh==null){
+			message = "订单"+myform.getOrderId()+"不存在！";
+		}
+		else if(of.confirmedOrder(myform.getOrderId())){
+			message = "订单"+myform.getOrderId()+"已经处理完毕，不能修改！";
+		}
+		else {
+			WholeOrder wo=myform.Form2Order();
+			of.replaceOrder(wo);
 
-		//刷新订单数据，确认结果
-		wo =of.fetchWholeOrder(myform.getOrderId());
-		myform.BindOrder(wo);
+			//刷新订单数据，确认结果
+			wo =of.fetchWholeOrder(myform.getOrderId());
+			myform.BindOrder(wo);
+		}
 		
-		String message = "订单更改成功！";
 		tplList=(HashMap) of.getTPLmap();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("order_input");
