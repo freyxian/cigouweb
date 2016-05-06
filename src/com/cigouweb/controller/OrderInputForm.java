@@ -36,10 +36,48 @@ public class OrderInputForm {
 	private String address;
 	private String postcode;
 	
+	private boolean confirmed;
+	
+	
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
+	}
+
 	//Wh_order_items
 	private List<OrderItemsForm> orderItemList;
 
 	public OrderInputForm(){
+		this.orderId=" ";
+		this.orderDate=" ";
+		this.customerId=" ";
+		this.packingMaterial=" ";
+		this.warehouseId=" ";
+		this.whRefTpl=" ";
+		this.orderType=0;
+		this.electriccode=" ";
+		this.deliveryCode=" ";
+		this.notes=" ";
+		this.cbepcomcode=" ";
+
+		//Wh_order_recipient
+		this.name=" ";
+		this.receiveType=0;
+		this.receiveNo=" ";
+		this.mobilePhone=" ";
+		this.phone=" ";
+		this.country=" ";
+		this.province=" ";
+		this.city=" ";
+		this.district=" ";
+		this.address=" ";
+		this.postcode=" ";
+		
+		this.confirmed=false;
+		
 		this.orderItemList=new ArrayList<OrderItemsForm>();
 	}
 	
@@ -254,6 +292,7 @@ public class OrderInputForm {
 		this.district=wo.getRecipient().getDistrict();
 		this.address=wo.getRecipient().getAddress();
 		this.postcode=wo.getRecipient().getPostcode();
+		this.confirmed=wo.isConfirmed();
 		
 		ArrayList<OrderItemsForm> al = new ArrayList<OrderItemsForm>();
 		for (WhOrderItems woi: wo.getItems()){

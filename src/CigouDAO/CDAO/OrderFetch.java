@@ -44,6 +44,11 @@ public	WholeOrder fetchWholeOrder(String orderid){
 	List<WhOrderItems> lwi=wih.findByOrderID(orderid);
 	wo.setItems(lwi);
 	
+	WhOrderConfirmHome woch=new WhOrderConfirmHome();
+	WhOrderConfirm woc=woch.findById(orderid);
+	if (woc==null) wo.setConfirmed(false);
+	else wo.setConfirmed(true);
+	
 	session.getTransaction().commit();
 	
 	return wo;
@@ -55,7 +60,7 @@ public void saveWholeOrder(WholeOrder wo){
 	wo.getHeader().setWhOrderItemses(mySet);
 	mySet.addAll(wo.getItems());
 	wo.getRecipient().setWhOrderHeader(wo.getHeader());
-	System.out.println("############ Save Item size is: "+mySet.size()); 
+//	System.out.println("############ Save Item size is: "+mySet.size()); 
 //	WhOrderHeaderHome wohh = new WhOrderHeaderHome();
 	Session session = HibernateUtil.getSessionFactory().openSession();
 	session.beginTransaction();
@@ -63,7 +68,7 @@ public void saveWholeOrder(WholeOrder wo){
 	session.save(wo.getHeader());
 	session.save(wo.getRecipient());
 	for(WhOrderItems item:mySet){
-		System.out.println("############ Save Item"+item.getId().getGoodId()); 
+//		System.out.println("############ Save Item"+item.getId().getGoodId()); 
 		item.setWhOrderHeader(wo.getHeader());
 		session.save(item);
 	}
@@ -76,9 +81,9 @@ public void deleteItem(WhOrderItemsId woitem){
 	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	session.beginTransaction();
 	WhOrderItemsHome home=new WhOrderItemsHome();
-	System.out.println(woitem.getOrderId()+"&&&&%%%%%%%&&"+woitem.getGoodId());
+//	System.out.println(woitem.getOrderId()+"&&&&%%%%%%%&&"+woitem.getGoodId());
 	WhOrderItems me=home.findById(woitem);
-	System.out.println("&&&&&&&&&&&&&&&&"+me.toString());
+//	System.out.println("&&&&&&&&&&&&&&&&"+me.toString());
 	home.delete(me);
 	session.getTransaction().commit();
 }

@@ -1,6 +1,7 @@
 package com.cigouweb.controller;
 
 import org.hibernate.Session;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -9,6 +10,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +30,11 @@ import CigouDAO.cigoudb.WhRefTplHome;
 @RequestMapping("/order_input")
 public class order_input {
 
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+	    binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	}
+	
 	@RequestMapping(method=GET)
 	public String HomeController(Map<String, Object> model,HttpServletRequest request){
 		//initial empty form
@@ -43,6 +51,7 @@ public class order_input {
 	//@RequestMapping(method=POST)
 	@RequestMapping(method=POST, params = { "OrderSearch" })
 	public ModelAndView processOrderSearch(@ModelAttribute("oiform") OrderInputForm myform) {
+		ModelAndView mv = new ModelAndView();
 		String orderId=myform.getOrderId();
 		String message=null;
 
@@ -54,14 +63,15 @@ public class order_input {
 		
 		if (wo==null){
 			message="没有找到订单"+orderId+"!";	
+			mv.clear();
 			myform=new OrderInputForm();
+			mv.setViewName("order_input");
 		}
 		//after search, flash web page
-		else myform.BindOrder(wo);
+		else { myform.BindOrder(wo);
+		mv.setViewName("order_input");}
 		}
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("order_input");
 		mv.addObject("oiform", myform);
 
 		mv.addObject("message",message);
@@ -71,23 +81,30 @@ public class order_input {
 	
 	@RequestMapping(method=POST, params = { "NewOrder" })
 	public ModelAndView processNewOrder(@ModelAttribute("oiform") OrderInputForm myform) {
-		HashMap tplList=null;
+		String message;
 		WholeOrder wo=myform.Form2Order();
 		OrderFetch ordf=new OrderFetch();
-		ordf.saveWholeOrder(wo);
-		String message = "新订单"+myform.getOrderId()+"加入系统！";
-		tplList=(HashMap) ordf.getTPLmap();
+		// check if order already exist
+		WhOrderHeader temp_wo=ordf.findOrder(myform.getOrderId());
+		if(temp_wo!=null){
+			message = "订单"+myform.getOrderId()+"已经存在！";
+		}else{		
+			ordf.saveWholeOrder(wo);
+			message = "新订单"+myform.getOrderId()+"加入系统！";
+		}
+		
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("order_input");
+		myform.setConfirmed(false);
 		mv.addObject("oiform", myform);
-		mv.addObject("tplList",tplList);
+
 		mv.addObject("message",message);
 		return mv;
 	}
 
 	@RequestMapping(method=POST, params = { "ModifyOrder" })
 	public ModelAndView processModifyOrder(@ModelAttribute("oiform") OrderInputForm myform) {
-		HashMap tplList=null;
+
 		String message = "订单更改成功！";
 
 		
@@ -111,11 +128,11 @@ public class order_input {
 			myform.BindOrder(wo);
 		}
 		
-		tplList=(HashMap) of.getTPLmap();
+
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("order_input");
 		mv.addObject("oiform", myform);
-		mv.addObject("tplList",tplList);
+
 		mv.addObject("message",message);
 		return mv;
 	}
@@ -129,18 +146,16 @@ public class order_input {
 		String message = "订单"+myform.getOrderId()+"成功删除！";
 		myform=new OrderInputForm();
 		ModelAndView mv = new ModelAndView();
-		HashMap tplList=new HashMap();
-		tplList = (HashMap) of.getTPLmap();
+
 		mv.setViewName("order_input");
 		mv.addObject("oiform", myform);
-		mv.addObject("tplList",tplList);
+
 		mv.addObject("message",message);
 		return mv;
 	}
 	
 	@RequestMapping(method=POST, params = { "DeleteItems" })
 	public ModelAndView processDeleteItems(@RequestParam("deleteItemIndex") String deleteItem,@ModelAttribute("oiform") OrderInputForm myform) {
-		HashMap tplList=null;
 
 		int index=Integer.parseInt(deleteItem);
 
@@ -159,8 +174,7 @@ public class order_input {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("oiform", myform);
 		mv.setViewName("order_input");
-		tplList = (HashMap) ordf.getTPLmap();
-		mv.addObject("tplList",tplList);
+
 		mv.addObject("message",message);
 
 		return mv;

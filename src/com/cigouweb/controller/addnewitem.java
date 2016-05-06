@@ -45,9 +45,6 @@ public class addnewitem {
 		model.put("message", message);
 
 		model.put("oiform", myform);
-		HashMap tplList=null;
-		tplList=(HashMap) of.getTPLmap();
-		model.put("tplList", tplList);
 		return "order_input";
 	}
 }

@@ -56,6 +56,14 @@ $(document).ready(function(){
     });
 
 	   $("#show_popup").leanModal({ top : 200, overlay : 0.4, closeButton: ".modal_close" });
+	   
+	   if(document.getElementById('confirmed').value=="true"){
+		   $("#ModifyOrder").prop("disabled",true);
+		   $("#DeleteOrder").prop("disabled",true);
+		   $("#DeleteItems").prop("disabled",true);
+		   $("#show_popup").prop("disabled",true);
+	   }
+	   
 });
  </script>
 </head>
@@ -68,11 +76,12 @@ $(document).ready(function(){
 
 <form:form action="order_input" method="post" modelAttribute="oiform">
 <input type="hidden" value="" id="deleteItemIndex" name="deleteItemIndex"/>
+<form:input type="hidden" id="confirmed" path="confirmed"/>
   定单号:<form:input  path="orderId" /> 
   <input type="submit" name="OrderSearch" value="查询">
   <input type="submit" name="NewOrder" value="新建">
-    <input type="submit" name="ModifyOrder" value="修改">
-      <input type="submit" name="DeleteOrder" value="删除">
+    <input type="submit" name="ModifyOrder" id="ModifyOrder" value="修改">
+      <input type="submit" name="DeleteOrder" id="DeleteOrder" value="删除">
   <table style="width:80%"><tr>
   <td>日期：<form:input path="orderDate"/></td>
   <td>定货人：<form:input path="customerId"/></td>
@@ -118,7 +127,7 @@ $(document).ready(function(){
 </table>
  
 <br>货物目录：     
-  <input type="submit" name="DeleteItems" value="删除货物">
+  <input type="submit" name="DeleteItems" id="DeleteItems" value="删除货物">
  <input type="button" href="#popupform" id="show_popup" value="新增货物">
 <br>
 <table id="itemTable" style="width:80%" border="1"> 
