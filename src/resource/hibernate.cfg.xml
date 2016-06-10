@@ -8,7 +8,7 @@
         <property name="hibernate.connection.characterEncoding">utf8</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">suntech</property>
-        <property name="hibernate.connection.url">jdbc:mysql://99.240.124.235/cigou</property>
+        <property name="hibernate.connection.url">jdbc:mysql://192.168.0.212/cigou</property>
         <property name="hibernate.connection.username">stuser</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
